@@ -14,4 +14,11 @@ contract Pool {
         totalSupply = _initialSupply;
         slope = _slope;
     }
+
+    function buy() public payable {
+        uint256 tokensToMint = calculateByReturns();
+        totalSupply.add(tokensToMint);
+    }
+
+    function calculateByReturns() public view returns (uint256) {}
 }
