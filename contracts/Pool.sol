@@ -10,8 +10,8 @@ contract Pool {
     uint32 public slope;
     uint256 public totalSupply;
 
-    constructor(uint256 _initialSupply, uint32 _initialSlope) {
+    constructor(uint256 _initialSupply, uint32 _slope) {
         totalSupply = _initialSupply;
-        slope = _initialSlope;
+        slope = _slope;
     }
 }
