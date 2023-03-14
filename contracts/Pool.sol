@@ -17,12 +17,17 @@ contract Pool {
 
     function buy() public payable {
         require(msg.value > 0, "amount is to small");
-        uint256 tokensToMint = calculateByReturns();
+        uint256 tokensToMint = calculateByReturns(msg.value);
         totalSupply.add(tokensToMint);
         balances[msg.sender] += tokensToMint;
     }
 
-    function calculateByReturns() public view returns (uint256) {}
+    function calculateByReturns(
+        uint256 _deposit
+    ) public view returns (uint256) {
+        uint256 tokenPrice = calculateTotalPrice();
+        return _deposit / tokenPrice;
+    }
 
     function calculateTotalPrice() public view returns (uint256) {
         uint256 temp = totalSupply.mul(totalSupply);
