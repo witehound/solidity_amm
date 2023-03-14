@@ -10,5 +10,7 @@ describe("Pool", () => {
     const pool = await Pool.deploy(initialSupply, slope);
     const tokenPrice = await pool.calculateTotalPrice();
     console.log("tokenprice", tokenPrice);
+
+    await pool.buy({ value: ethers.utils.parseEther("2.0") });
   });
 });

@@ -18,8 +18,9 @@ contract Pool {
     function buy() public payable {
         require(msg.value > 0, "amount is to small");
         uint256 tokensToMint = calculateByReturns(msg.value);
-        totalSupply.add(tokensToMint);
-        balances[msg.sender] += tokensToMint;
+        totalSupply = totalSupply.add(tokensToMint);
+        uint256 currBal = balances[msg.sender];
+        balances[msg.sender] = currBal.add(tokensToMint);
     }
 
     function calculateByReturns(
