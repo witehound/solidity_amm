@@ -24,7 +24,7 @@ contract Pool {
 
     function calculateByReturns() public view returns (uint256) {}
 
-    function calculateTotalPrice() internal view returns (uint256) {
+    function calculateTotalPrice() public view returns (uint256) {
         uint256 temp = totalSupply.mul(totalSupply);
         return slope.mul(temp);
     }

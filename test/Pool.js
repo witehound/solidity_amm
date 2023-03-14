@@ -8,5 +8,7 @@ describe("Pool", () => {
     const initialSupply = 100;
     const slope = 1;
     const pool = await Pool.deploy(initialSupply, slope);
+    const tokenPrice = await pool.calculateTotalPrice();
+    console.log("tokenprice", tokenPrice);
   });
 });
