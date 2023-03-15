@@ -27,7 +27,7 @@ contract Pool {
         uint256 _deposit
     ) public view returns (uint256) {
         uint256 tokenPrice = calculateTotalPrice();
-        return _deposit / tokenPrice;
+        return _deposit.div(tokenPrice);
     }
 
     function calculateTotalPrice() public view returns (uint256) {
