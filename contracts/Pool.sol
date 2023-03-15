@@ -17,13 +17,17 @@ contract Pool {
 
     function buy() public payable {
         require(msg.value > 0, "amount is to small");
-        uint256 tokensToMint = calculateByReturns(msg.value);
+        uint256 tokensToMint = calculateBuyReturns(msg.value);
         totalSupply = totalSupply.add(tokensToMint);
         uint256 currBal = balances[msg.sender];
         balances[msg.sender] = currBal.add(tokensToMint);
     }
 
-    function calculateByReturns(
+    function sell(uint256 tokensamount) public returns (uint256) {
+        uint256 ethReturn = calculateSellReturn();
+    }
+
+    function calculateBuyReturns(
         uint256 _deposit
     ) public view returns (uint256) {
         uint256 tokenPrice = calculateTotalPrice();
@@ -33,5 +37,11 @@ contract Pool {
     function calculateTotalPrice() public view returns (uint256) {
         uint256 temp = totalSupply.mul(totalSupply);
         return slope.mul(temp);
+    }
+
+    function calculateSellReturn() public view returns (uint256) {
+        uint256 cp = calculateTotalPrice();
+
+        return slope.mul(cp);
     }
 }
