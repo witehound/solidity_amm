@@ -5,7 +5,7 @@ describe("Pool", () => {
     const [owner, otherAccounts] = await ethers.getSigners();
     const Pool = await ethers.getContractFactory("Pool");
 
-    const initialSupply = ethers.utils.parseUnits("20", 18);
+    const initialSupply = ethers.utils.parseUnits("20", 8);
     const slope = 1;
     const pool = await Pool.deploy(initialSupply, slope);
     const tokenPrice = await pool.calculateTotalPrice();

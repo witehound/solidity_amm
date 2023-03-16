@@ -25,6 +25,7 @@ contract Pool {
 
     function sell(uint256 tokensamount) public returns (uint256) {
         uint256 ethReturn = calculateSellReturn();
+        
     }
 
     function calculateBuyReturns(
