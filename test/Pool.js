@@ -12,12 +12,13 @@ describe("Pool", () => {
     const tokenPrice = await pool.calculateTotalPrice();
     console.log("token price", tokenPrice);
 
-    await pool.buy({ value: ethers.utils.parseEther("20.0") });
-    const newTokenPrice = await pool.calculateTotalPrice();
-    console.log("new token price", newTokenPrice);
+    await pool.buy({ value: ethers.utils.parseEther("1.0") });
 
     const contractBalance = await ethers.provider.getBalance(pool.address);
     console.log("initial pool bal", contractBalance);
+
+    const newTokenPrice = await pool.calculateTotalPrice();
+    console.log("new token price", newTokenPrice);
 
     // const balance = await pool.balances(owner.address);
     // console.log("curr token bal", balance);
