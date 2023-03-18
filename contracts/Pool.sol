@@ -25,11 +25,16 @@ contract Pool {
     }
 
     function sell(uint256 _tokens) public {
+        require(balances[msg.sender] > _tokens, "not enough tokens");
         totalSupply = totalSupply.sub(_tokens);
         uint256 bl = balances[msg.sender];
         balances[msg.sender] = bl.sub(_tokens);
 
         uint256 ethReturn = calculateSellReturn(_tokens);
+        require(
+            address(this).balance >= ethReturn,
+            "not enough eth to send to seller"
+        );
 
         payable(msg.sender).transfer(ethReturn);
     }
