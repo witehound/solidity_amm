@@ -21,7 +21,7 @@ contract Pool {
         uint256 tokensToMint = calculateBuyReturns(msg.value);
         totalSupply = totalSupply.add(tokensToMint);
         uint256 currBal = balances[msg.sender];
-        balances[msg.sender] = tokensToMint;
+        balances[msg.sender] = currBal.add(tokensToMint);
     }
 
     function sell(uint256 _tokens) public {
@@ -37,11 +37,8 @@ contract Pool {
     function calculateBuyReturns(
         uint256 _deposit
     ) public view returns (uint256) {
-        console.log("Deposit %s", _deposit);
-
         uint256 tokenPrice = calculateTotalPrice();
 
-        console.log("Return %s", _deposit.div(tokenPrice));
         return _deposit.div(tokenPrice);
     }
 
