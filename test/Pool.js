@@ -9,6 +9,8 @@ describe("Pool", () => {
     const slope = 1;
     const pool = await Pool.deploy(initialSupply, slope);
 
+    const deposit = ethers.utils.parseEther("20.0");
+
     // await owner.sendTransaction({
     //   to: pool.address,
     //   value: ethers.utils.parseEther("30"),
@@ -17,10 +19,10 @@ describe("Pool", () => {
     const tokenPrice = await pool.calculateTotalPrice();
     console.log("token price", tokenPrice);
 
-    await pool.buy({ value: ethers.utils.parseEther("20.0") });
+    await pool.buy({ value: deposit });
 
     const contractBalance = await ethers.provider.getBalance(pool.address);
-    console.log("initial pool bal", contractBalance);
+    expect(contractBalance).to.equal(deposit);
 
     const newTokenPrice = await pool.calculateTotalPrice();
     console.log("new token price", newTokenPrice);
@@ -30,11 +32,12 @@ describe("Pool", () => {
 
     await pool.sell(balance);
 
-    // const priceAfterSales = await pool.calculateTotalPrice();
-    // console.log("price after sales", priceAfterSales);
+    const priceAfterSales = await pool.calculateTotalPrice();
+    console.log("price after sales", priceAfterSales);
 
-    // const balance2 = await pool.balances(owner.address);
-    // console.log("bal after sales", balance2);
+    const balance2 = await pool.balances(owner.address);
+
+    expect(balance2.toNumber()).to.equal(0);
   });
 });
 
