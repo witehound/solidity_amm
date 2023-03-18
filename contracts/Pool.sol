@@ -23,9 +23,14 @@ contract Pool {
         balances[msg.sender] = currBal.add(tokensToMint);
     }
 
-    function sell(uint256 tokensamount) public returns (uint256) {
-        uint256 ethReturn = calculateSellReturn();
-        
+    function sell(uint256 _tokens) public {
+        totalSupply = totalSupply.sub(_tokens);
+        uint256 bl = balances[msg.sender];
+        balances[msg.sender] = bl.sub(_tokens);
+
+        uint256 ethReturn = calculateSellReturn(_tokens);
+
+        payable(msg.sender).transfer(ethReturn);
     }
 
     function calculateBuyReturns(
@@ -40,9 +45,11 @@ contract Pool {
         return slope.mul(temp);
     }
 
-    function calculateSellReturn() public view returns (uint256) {
+    function calculateSellReturn(
+        uint256 _tokens
+    ) public view returns (uint256) {
         uint256 cp = calculateTotalPrice();
 
-        return slope.mul(cp);
+        return _tokens.mul(cp);
     }
 }
