@@ -9,10 +9,10 @@ describe("Pool", () => {
     const slope = 1;
     const pool = await Pool.deploy(initialSupply, slope);
 
-    await owner.sendTransaction({
-      to: pool.address,
-      value: ethers.utils.parseEther("30"),
-    });
+    // await owner.sendTransaction({
+    //   to: pool.address,
+    //   value: ethers.utils.parseEther("30"),
+    // });
 
     const tokenPrice = await pool.calculateTotalPrice();
     console.log("token price", tokenPrice);

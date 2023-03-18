@@ -31,7 +31,7 @@ contract Pool {
         balances[msg.sender] = bl.sub(_tokens);
 
         uint256 ethReturn = calculateSellReturn(_tokens);
-        console.log("Sell rt %s", ethReturn);
+
         require(
             address(this).balance >= ethReturn,
             "not enough eth to send to seller"
