@@ -40,5 +40,3 @@ describe("Pool", () => {
     expect(balance2.toNumber()).to.equal(0);
   });
 });
-
-// completed sbt prod integration
