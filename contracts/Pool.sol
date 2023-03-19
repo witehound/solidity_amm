@@ -11,8 +11,8 @@ contract Pool is ERC20 {
 
     uint32 public slope;
 
-    constructor(uint256 _initialSupply, uint32 _slope) {
-        _mint(address(this), _initialSupply);
+    constructor(uint256 _initialSupply, uint32 _slope) ERC20("kING", "KNG") {
+        _mint(msg.sender, _initialSupply);
 
         slope = _slope;
     }
