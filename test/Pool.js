@@ -27,7 +27,7 @@ describe("Pool", () => {
     const newTokenPrice = await pool.calculateTotalPrice();
     console.log("new token price", newTokenPrice);
 
-    const balance = await pool.balances(owner.address);
+    const balance = await pool.balanceOf(owner.address);
     console.log("curr token bal", balance);
 
     await pool.sell(balance);
@@ -35,7 +35,7 @@ describe("Pool", () => {
     const priceAfterSales = await pool.calculateTotalPrice();
     console.log("price after sales", priceAfterSales);
 
-    const balance2 = await pool.balances(owner.address);
+    const balance2 = await pool.balanceOf(owner.address);
 
     expect(balance2.toNumber()).to.equal(0);
   });
