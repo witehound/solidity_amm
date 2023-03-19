@@ -10,26 +10,26 @@ contract Pool is ERC20 {
     mapping(address => uint256) public balances;
 
     uint32 public slope;
-    uint256 public totalSupply;
 
     constructor(uint256 _initialSupply, uint32 _slope) {
-        totalSupply = _initialSupply;
+        _mint(address(this), _initialSupply);
+
         slope = _slope;
     }
 
     function buy() public payable {
         require(msg.value > 0, "amount is to small");
+
         uint256 tokensToMint = calculateBuyReturns(msg.value);
-        totalSupply = totalSupply.add(tokensToMint);
-        uint256 currBal = balances[msg.sender];
-        balances[msg.sender] = currBal.add(tokensToMint);
+
+        _mint(msg.sender, tokensToMint);
     }
 
     function sell(uint256 _tokens) public {
-        require(balances[msg.sender] >= _tokens, "not enough tokens");
-        totalSupply = totalSupply.sub(_tokens);
-        uint256 bl = balances[msg.sender];
-        balances[msg.sender] = bl.sub(_tokens);
+        uint256 bl = balanceOf(msg.sender);
+        require(bl >= _tokens, "not enough tokens");
+
+        _burn(msg.sender, _tokens);
 
         uint256 ethReturn = calculateSellReturn(_tokens);
 
@@ -50,6 +50,7 @@ contract Pool is ERC20 {
     }
 
     function calculateTotalPrice() public view returns (uint256) {
+        uint256 totalSupply = totalSupply();
         uint256 temp = totalSupply.mul(totalSupply);
         return slope.mul(temp);
     }
@@ -58,7 +59,6 @@ contract Pool is ERC20 {
         uint256 _tokens
     ) public view returns (uint256) {
         uint256 cp = calculateTotalPrice();
-
         return _tokens.mul(cp);
     }
 
