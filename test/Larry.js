@@ -6,7 +6,7 @@ const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Larry", function () {
+describe("Larry token", function () {
   async function deploy() {
     const [owner, other1, other2, other3] = await ethers.getSigners();
 
@@ -16,7 +16,7 @@ describe("Larry", function () {
     return { larry, owner, other1, other2, other3 };
   }
 
-  describe("airdrop", function () {
+  describe("Larry test", function () {
     it("deployer gets all tokens", async function () {
       const { larry, owner, other1, other2 } = await loadFixture(deploy);
 
@@ -99,6 +99,25 @@ describe("Larry", function () {
           [ethers.utils.parseEther("1"), ethers.utils.parseEther("1")]
         )
       ).to.be.revertedWith("LR : exceeded airdrop limit");
+    });
+
+    it("should renounce ownership", async function () {
+      const { larry, owner, other1, other2 } = await loadFixture(deploy);
+      let deployer = await larry.owner();
+
+      let zeroAddress = "0x0000000000000000000000000000000000000000";
+
+      expect(deployer).to.be.equal(owner.address);
+
+      await larry.renounceOwnership();
+
+      let newOwner = await larry.owner();
+
+      expect(newOwner).to.not.be.equal(owner.address);
+
+      expect(newOwner).to.be.equal(zeroAddress);
+
+      console.log("ownership renounced", newOwner);
     });
   });
 });
